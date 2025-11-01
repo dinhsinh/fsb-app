@@ -1,0 +1,53 @@
+"use client"
+
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { Menu, Search, Bell, Settings } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
+
+export default function Header({
+  onMenuClick,
+  sidebarCollapsed,
+}: { onMenuClick: () => void; sidebarCollapsed: boolean }) {
+  const router = useRouter()
+
+  return (
+    <header className="h-16 bg-white border-b border-border shadow-sm px-6 flex items-center justify-between gap-4">
+      <button onClick={onMenuClick} className="p-2 hover:bg-muted rounded-lg transition-colors md:hidden">
+        <Menu size={20} />
+      </button>
+
+      { sidebarCollapsed && 
+        <div className={cn("hidden md:flex items-center transition-all duration-300", sidebarCollapsed && "md:flex")}>
+          <Image src="/fpt-logo-large.png" alt="FPT" width={48} height={48} className="h-10 w-auto" priority />
+        </div>
+      }
+
+      <div className="flex-1 max-w-md hidden md:flex">
+        <div className="relative w-full">
+          <Search className="absolute left-3 top-3 text-muted-foreground" size={18} />
+          <Input
+            type="text"
+            placeholder="Search courses, results..."
+            className="pl-10 bg-light-gray border-0 focus:ring-2 focus:ring-fpt-orange"
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => router.push("/notifications")}
+          className="relative p-2 hover:bg-muted rounded-lg transition-colors"
+        >
+          <Bell size={20} className="text-foreground" />
+          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+        </button>
+        <button onClick={() => router.push("/settings")} className="p-2 hover:bg-muted rounded-lg transition-colors">
+          <Settings size={20} className="text-foreground" />
+        </button>
+        <div className="w-10 h-10 bg-gradient-to-br from-fpt-orange to-fpt-blue rounded-full" />
+      </div>
+    </header>
+  )
+}

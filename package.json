@@ -5,7 +5,7 @@
   "homepage": "https://dinhsinh.github.io/fsb-app",
   "scripts": {
     "build": "next build",
-    "export": "next build && next export",
+    "export": "next build",
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start",

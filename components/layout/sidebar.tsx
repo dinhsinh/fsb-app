@@ -60,7 +60,7 @@ export default function Sidebar({
           {!collapsed && (
             <div className="flex items-center gap-2">
               <Image
-                src="/fpt-logo-large.png"
+                src="/fsb-app/fpt-logo-large.png"
                 alt="FPT Education"
                 width={180}
                 height={80}
@@ -104,11 +104,13 @@ export default function Sidebar({
         {/* User Info */}
         <div className="border-t border-border p-3">
           <div className={cn("flex items-center gap-3 p-2 rounded-lg bg-muted", collapsed && "justify-center")}>
-            <div className="w-10 h-10 bg-gradient-to-br from-fpt-orange to-fpt-blue rounded-full flex-shrink-0" />
+            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex-shrink-0 flex items-center justify-center">
+              <span className="text-white font-semibold text-sm">DS</span>
+            </div>
             {!collapsed && (
               <div className="min-w-0">
-                <div className="text-sm font-semibold text-foreground truncate">Jordan</div>
-                <div className="text-xs text-muted-foreground truncate">SE162345</div>
+                <div className="text-sm font-semibold text-foreground truncate">Dương Dinh Sinh</div>
+                <div className="text-xs text-muted-foreground truncate">25MSA33054</div>
               </div>
             )}
           </div>

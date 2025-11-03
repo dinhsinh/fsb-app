@@ -53,7 +53,7 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">{t('welcomeBack')}, Jordan</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">{t('welcomeBack')}, Dương Dinh Sinh</h1>
           <p className="text-muted-foreground">{t('academicOverview')}</p>
         </div>
 

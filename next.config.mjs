@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  output: 'export',
+  trailingSlash: true,
   images: {
-    unoptimized: true,
+    unoptimized: true
   },
-}
+  basePath: '/fsb-app',
+  assetPrefix: '/fsb-app/'
+};
 
-export default nextConfig
+export default nextConfig;

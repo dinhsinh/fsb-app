@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Menu, Search, Bell, Settings } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { LanguageSwitcher } from "@/components/ui/language-switcher"
+import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
 
 export default function Header({
@@ -11,6 +13,7 @@ export default function Header({
   sidebarCollapsed,
 }: { onMenuClick: () => void; sidebarCollapsed: boolean }) {
   const router = useRouter()
+  const { t } = useLanguage()
 
   return (
     <header className="h-16 bg-white border-b border-border shadow-sm px-6 flex items-center justify-between gap-4">
@@ -29,13 +32,14 @@ export default function Header({
           <Search className="absolute left-3 top-3 text-muted-foreground" size={18} />
           <Input
             type="text"
-            placeholder="Search courses, results..."
+            placeholder={t('searchPlaceholder')}
             className="pl-10 bg-light-gray border-0 focus:ring-2 focus:ring-fpt-orange"
           />
         </div>
       </div>
 
       <div className="flex items-center gap-3">
+        <LanguageSwitcher />
         <button
           onClick={() => router.push("/notifications")}
           className="relative p-2 hover:bg-muted rounded-lg transition-colors"

@@ -14,7 +14,9 @@ import {
 } from "recharts"
 import AppShell from "@/components/layout/app-shell"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { TrendingUp, Book, AlertCircle, Clock } from "lucide-react"
+import { TrendingUp, Book, AlertCircle, Clock, CheckCircle, FileText, Bell } from "lucide-react"
+import { useLanguage } from "@/contexts/language-context"
+import { colorClasses } from "@/lib/colors"
 
 const gpaData = [
   { month: "Aug", gpa: 3.1 },
@@ -44,69 +46,102 @@ const recentActivities = [
 ]
 
 export default function Dashboard() {
+  const { t } = useLanguage();
+  
   return (
     <AppShell>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Welcome back, Jordan</h1>
-          <p className="text-muted-foreground">Here's your academic overview for this semester</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">{t('welcomeBack')}, Jordan</h1>
+          <p className="text-muted-foreground">{t('academicOverview')}</p>
         </div>
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          {/* Current GPA */}
           <Card className="shadow-card hover:shadow-md transition-shadow">
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">Current GPA</p>
-                  <p className="text-3xl font-bold text-foreground">3.50</p>
+                <div className="flex-1">
+                  <p className="text-sm text-muted-foreground mb-1">{t('currentGPA')}</p>
+                  <p className="text-2xl font-bold text-orange-500 text-foreground mb-1">3.50</p>
+                  <p className="text-xs text-green-500 font-medium">+0.12 from previous semester</p>
                 </div>
-                <div className="w-12 h-12 bg-fpt-orange/10 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="text-fpt-orange" size={24} />
+                <div className="relative w-12 h-12">
+                  <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 36 36">
+                    <path className="text-gray-200" strokeWidth="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path className="text-orange-500" strokeWidth="3" strokeDasharray="87.5, 100" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  </svg>
                 </div>
               </div>
             </CardContent>
           </Card>
 
+          {/* Upcoming Classes */}
           <Card className="shadow-card hover:shadow-md transition-shadow">
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">Upcoming Classes</p>
-                  <p className="text-3xl font-bold text-foreground">3</p>
+                <div className="flex-1">
+                  <p className="text-sm text-muted-foreground mb-1">{t('upcomingClasses')}</p>
+                  <p className="text-2xl font-bold text-blue-600">PRN231</p>
+                  <div className="flex items-center gap-1 mt-1">
+                    <Clock size={12} className="text-muted-foreground" />
+                    <p className="text-xs text-muted-foreground">45 minutes left</p>
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-fpt-blue/10 rounded-lg flex items-center justify-center">
-                  <Book className="text-fpt-blue" size={24} />
+                <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                  <Book className="text-blue-500" size={20} />
                 </div>
               </div>
             </CardContent>
           </Card>
 
+          {/* Tuition Due */}
           <Card className="shadow-card hover:shadow-md transition-shadow">
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">Tuition Due</p>
-                  <p className="text-3xl font-bold text-foreground">$2,450</p>
+                <div className="flex-1">
+                  <p className="text-sm text-muted-foreground mb-1">{t('tuitionFee')}</p>
+                  <p className="text-2xl font-bold text-red-500">$2,450</p>
+                  <p className="text-xs text-muted-foreground mt-1">Deadline: 15/11/2024</p>
                 </div>
-                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                  <AlertCircle className="text-yellow-600" size={24} />
+                <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">
+                  <AlertCircle className="text-red-500" size={20} />
                 </div>
               </div>
             </CardContent>
           </Card>
 
+          {/* Unread Notifications */}
           <Card className="shadow-card hover:shadow-md transition-shadow">
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">Unread Notifications</p>
-                  <p className="text-3xl font-bold text-foreground">5</p>
+                <div className="flex-1">
+                  <p className="text-sm text-muted-foreground mb-1">{t('notifications')}</p>
+                  <p className="text-2xl font-bold text-foreground text-green-500 ">8</p>
+                  <p className="text-xs text-red-500 mt-1">4 {t('unread')}</p>
                 </div>
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                  <Clock className="text-red-600" size={24} />
+                <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+                  <Bell className="text-green-500" size={20} />
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="mb-6">
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle className="text-lg">Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-3 flex-wrap">
+                <button className={colorClasses.btnPrimary}>Submit Assignment</button>
+                <button className={colorClasses.btnSecondary}>Send Feedback</button>
+                <button className={colorClasses.btnSuccess}>Register Seminar</button>
+                <button className="px-4 py-2 border border-orange-500 text-orange-500 rounded-lg hover:bg-orange-50 transition-colors">View Schedule</button>
               </div>
             </CardContent>
           </Card>
@@ -116,7 +151,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           <Card className="shadow-card lg:col-span-2">
             <CardHeader>
-              <CardTitle className="text-lg">GPA Trend</CardTitle>
+              <CardTitle className="text-lg">{t('gpaTrend')}</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -126,7 +161,7 @@ export default function Dashboard() {
                   <YAxis stroke="#999999" domain={[2.8, 3.6]} />
                   <Tooltip
                     contentStyle={{ backgroundColor: "#fff", border: "1px solid #E8E8E8" }}
-                    formatter={(value) => value.toFixed(2)}
+                    formatter={(value) => Number(value).toFixed(2)}
                   />
                   <Line
                     type="monotone"
@@ -142,7 +177,7 @@ export default function Dashboard() {
 
           <Card className="shadow-card">
             <CardHeader>
-              <CardTitle className="text-lg">Attendance</CardTitle>
+              <CardTitle className="text-lg">{t('attendance')}</CardTitle>
             </CardHeader>
             <CardContent className="flex items-center justify-center">
               <ResponsiveContainer width="100%" height={250}>
@@ -171,18 +206,26 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="shadow-card">
             <CardHeader>
-              <CardTitle className="text-lg">Today's Classes</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">Today's Schedule</CardTitle>
+                <button className="text-xs text-orange-500 hover:text-orange-600 font-medium">View all</button>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {upcomingClasses.map((cls, idx) => (
                   <div
                     key={idx}
-                    className="p-3 bg-light-gray rounded-lg border border-border hover:border-fpt-orange/50 transition-colors cursor-pointer"
+                    className="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-orange-200 transition-colors cursor-pointer relative"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-semibold text-fpt-orange">{cls.code}</span>
-                      <span className="text-xs text-muted-foreground">{cls.time}</span>
+                      <span className="text-sm font-semibold text-blue-500">{cls.code}</span>
+                      <div className="flex items-center gap-2">
+                        <span className={`badge-${idx === 0 ? 'success' : 'info'}`}>
+                          {idx === 0 ? 'Offline' : 'Online'}
+                        </span>
+                        <span className="text-xs text-muted-foreground">{cls.time}</span>
+                      </div>
                     </div>
                     <p className="text-sm text-foreground font-medium">{cls.name}</p>
                     <p className="text-xs text-muted-foreground">Room: {cls.room}</p>
@@ -194,23 +237,43 @@ export default function Dashboard() {
 
           <Card className="shadow-card">
             <CardHeader>
-              <CardTitle className="text-lg">Recent Activity</CardTitle>
+              <CardTitle className="text-lg">Recent Activities</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {recentActivities.map((activity, idx) => (
-                  <div key={idx} className="p-3 border-l-4 border-fpt-orange/30 bg-light-gray rounded-r-lg">
-                    <div className="flex justify-between items-start mb-1">
-                      <p className="text-sm font-semibold text-foreground">{activity.title}</p>
-                      <span className="text-xs text-muted-foreground">{activity.time}</span>
+                {recentActivities.map((activity, idx) => {
+                  const getIcon = () => {
+                    switch (activity.type) {
+                      case 'grade':
+                        return <CheckCircle className="text-green-500" size={20} />;
+                      case 'form':
+                        return <FileText className="text-blue-500" size={20} />;
+                      case 'notification':
+                        return <Bell className="text-orange-500" size={20} />;
+                      default:
+                        return <Bell className="text-gray-500" size={20} />;
+                    }
+                  };
+                  
+                  return (
+                    <div key={idx} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm flex-shrink-0">
+                        {getIcon()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-start mb-1">
+                          <p className="text-sm font-semibold text-foreground">{activity.title}</p>
+                          <span className="text-xs text-muted-foreground">{activity.time}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {activity.type === "grade" && `${activity.course} - ${activity.score}`}
+                          {activity.type === "form" && activity.form}
+                          {activity.type === "notification" && activity.event}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      {activity.type === "grade" && `${activity.course} - ${activity.score}`}
-                      {activity.type === "form" && activity.form}
-                      {activity.type === "notification" && activity.event}
-                    </p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </CardContent>
           </Card>

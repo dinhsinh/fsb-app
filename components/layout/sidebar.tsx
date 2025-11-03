@@ -3,6 +3,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
+import { usePathname } from "next/navigation"
+import { useLanguage } from "@/contexts/language-context"
 import {
   LayoutDashboard,
   Calendar,
@@ -18,16 +20,16 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-const navigation = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Schedule", href: "/schedule", icon: Calendar },
-  { name: "Marks", href: "/marks", icon: BarChart3 },
-  { name: "Attendance", href: "/attendance", icon: FileText },
-  { name: "Profile", href: "/profile", icon: User },
-  { name: "Finance", href: "/finance", icon: DollarSign },
-  { name: "Seminar", href: "/seminar", icon: BookOpen },
-  { name: "Notifications", href: "/notifications", icon: Bell },
-  { name: "Settings", href: "/settings", icon: Settings },
+const getNavigation = (t: any) => [
+  { name: t('dashboard'), href: "/", icon: LayoutDashboard },
+  { name: t('schedule'), href: "/schedule", icon: Calendar },
+  { name: t('marks'), href: "/marks", icon: BarChart3 },
+  { name: t('attendance'), href: "/attendance", icon: FileText },
+  { name: t('profile'), href: "/profile", icon: User },
+  { name: t('finance'), href: "/finance", icon: DollarSign },
+  { name: t("seminar"), href: "/seminar", icon: BookOpen },
+  { name: t('notifications'), href: "/notifications", icon: Bell },
+  { name: t('settings'), href: "/settings", icon: Settings },
 ]
 
 export default function Sidebar({
@@ -35,7 +37,10 @@ export default function Sidebar({
   onToggle,
   onCollapsedChange,
 }: { open: boolean; onToggle: () => void; onCollapsedChange: (collapsed: boolean) => void }) {
+  const { t } = useLanguage();
+  const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(!open)
+  const navigation = getNavigation(t)
 
   const handleToggle = () => {
     const newCollapsed = !collapsed
@@ -76,13 +81,16 @@ export default function Sidebar({
         <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto">
           {navigation.map((item) => {
             const Icon = item.icon
+            const isActive = pathname === item.href
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm font-medium",
-                  "hover:bg-fpt-orange/10 text-foreground",
+                  "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors text-sm font-medium",
+                  isActive 
+                    ? "bg-orange-500 text-white" 
+                    : "hover:bg-orange-50 text-foreground hover:text-orange-600",
                   collapsed && "justify-center",
                 )}
               >

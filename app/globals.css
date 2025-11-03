@@ -4,47 +4,59 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* FPT University Colors */
-  --fpt-orange: #f37021;
-  --fpt-blue: #0072bc;
-  --fpt-green: #8dc63f;
-  --dark-gray: #4d4d4f;
-  --light-gray: #f5f5f5;
-  --border-gray: #e8e8e8;
+  /* Màu chủ đạo */
+  --primary-orange: #ff6b35;     /* Cam tươi - màu nhấn chính */
+  --primary-white: #ffffff;      /* Trắng tinh khiết */
+  --background-light: #f9fafc;   /* Xám trắng nhạt - nền chính */
+  
+  /* Màu chữ */
+  --text-primary: #1a1a1a;       /* Đen đậm - chữ chính */
+  --text-secondary: #4a5568;     /* Xám đậm - chữ phụ */
+  --text-muted: #718096;         /* Xám nhạt - chữ mờ */
+  
+  /* Màu nhấn */
+  --success-green: #22c55e;      /* Xanh lá - trạng thái tốt */
+  --info-blue: #3b82f6;          /* Xanh dương - liên kết */
+  --warning-red: #ef4444;        /* Đỏ - cảnh báo */
+  
+  /* Màu nền và viền */
+  --border-light: #e2e8f0;       /* Viền nhạt */
+  --surface-white: #ffffff;      /* Nền card */
+  --surface-gray: #f1f5f9;       /* Nền phụ */
 
-  --background: oklch(1 0 0);
-  --foreground: #4d4d4f;
-  --card: oklch(1 0 0);
-  --card-foreground: #4d4d4f;
-  --popover: oklch(1 0 0);
-  --popover-foreground: #4d4d4f;
-  --primary: #f37021;
-  --primary-foreground: oklch(1 0 0);
-  --secondary: #0072bc;
-  --secondary-foreground: oklch(1 0 0);
-  --muted: #f5f5f5;
-  --muted-foreground: #999999;
-  --accent: #8dc63f;
-  --accent-foreground: oklch(1 0 0);
-  --destructive: #ef4444;
-  --destructive-foreground: oklch(1 0 0);
-  --border: #e8e8e8;
-  --input: #f5f5f5;
-  --ring: #f37021;
-  --chart-1: #f37021;
-  --chart-2: #0072bc;
-  --chart-3: #8dc63f;
-  --chart-4: #ffb81c;
-  --chart-5: #7c3aed;
+  --background: var(--background-light);
+  --foreground: var(--text-primary);
+  --card: var(--surface-white);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-white);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--primary-orange);
+  --primary-foreground: var(--primary-white);
+  --secondary: var(--info-blue);
+  --secondary-foreground: var(--primary-white);
+  --muted: var(--surface-gray);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--success-green);
+  --accent-foreground: var(--primary-white);
+  --destructive: var(--warning-red);
+  --destructive-foreground: var(--primary-white);
+  --border: var(--border-light);
+  --input: var(--surface-gray);
+  --ring: var(--primary-orange);
+  --chart-1: var(--primary-orange);
+  --chart-2: var(--info-blue);
+  --chart-3: var(--success-green);
+  --chart-4: var(--warning-red);
+  --chart-5: #8b5cf6;
   --radius: 0.75rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: var(--primary-orange);
+  --sidebar-foreground: var(--primary-white);
+  --sidebar-primary: var(--primary-white);
+  --sidebar-primary-foreground: var(--primary-orange);
+  --sidebar-accent: rgba(255, 255, 255, 0.1);
+  --sidebar-accent-foreground: var(--primary-white);
+  --sidebar-border: rgba(255, 255, 255, 0.2);
+  --sidebar-ring: var(--primary-white);
 }
 
 .dark {
@@ -138,31 +150,20 @@
     @apply shadow-sm border border-border;
   }
 
-  .fpt-orange {
-    color: #f37021;
-  }
-
-  .bg-fpt-orange {
-    background-color: #f37021;
-  }
-
-  .fpt-blue {
-    color: #0072bc;
-  }
-
-  .bg-fpt-blue {
-    background-color: #0072bc;
-  }
-
+  /* Badge styles */
   .badge-success {
-    @apply bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium;
+    @apply bg-green-50 text-green-600 border border-green-200 px-3 py-1 rounded-full text-sm font-medium;
   }
-
+  
+  .badge-info {
+    @apply bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
   .badge-warning {
-    @apply bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium;
+    @apply bg-red-50 text-red-600 border border-red-200 px-3 py-1 rounded-full text-sm font-medium;
   }
-
-  .badge-danger {
-    @apply bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium;
+  
+  .badge-primary {
+    @apply bg-orange-50 text-orange-600 border border-orange-200 px-3 py-1 rounded-full text-sm font-medium;
   }
 }

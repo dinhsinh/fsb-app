@@ -2,11 +2,18 @@
 
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { Menu, Search, Bell, Settings } from "lucide-react"
+import { Menu, Search, Bell, Settings, User, LogOut, Shield, GraduationCap, Users } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { LanguageSwitcher } from "@/components/ui/language-switcher"
 import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function Header({
   onMenuClick,
@@ -50,7 +57,33 @@ export default function Header({
         <button onClick={() => router.push("/settings")} className="p-2 hover:bg-muted rounded-lg transition-colors">
           <Settings size={20} className="text-foreground" />
         </button>
-        <div className="w-10 h-10 bg-gradient-to-br from-fpt-orange to-fpt-blue rounded-full" />
+        <DropdownMenu>
+          <DropdownMenuTrigger className="w-10 h-10 bg-gradient-to-br from-fpt-orange to-fpt-blue rounded-full hover:opacity-80 transition-opacity" />
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuItem onClick={() => router.push("/profile")}>
+              <User className="mr-2 h-4 w-4" />
+              {t('myProfile')}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => router.push("/admin")}>
+              <Shield className="mr-2 h-4 w-4" />
+              {t('switchToAdminPortal')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/lecturer")}>
+              <GraduationCap className="mr-2 h-4 w-4" />
+              {t('switchToLecturerPortal')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/")}>
+              <Users className="mr-2 h-4 w-4" />
+              {t('studentPortal')}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-red-600">
+              <LogOut className="mr-2 h-4 w-4" />
+              {t('logout')}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   )

@@ -5,8 +5,8 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
-  basePath: '/fsb-app',
-  assetPrefix: '/fsb-app/'
+  // basePath: '/fsb-app',
+  // assetPrefix: '/fsb-app/'
 };
 
 export default nextConfig;

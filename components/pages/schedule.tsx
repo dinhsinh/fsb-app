@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import { useLanguage } from '@/contexts/language-context'
+import { translations } from '@/lib/i18n'
 import AppShell from "@/components/layout/app-shell"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -24,38 +26,86 @@ const scheduleData = [
   { time: "14:30", classes: [] },
 ]
 
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+// removed static daysOfWeek here; localized days are defined inside the component using t()
 
 export default function Schedule() {
+  const { t, language } = useLanguage()
+
   const [selectedDay, setSelectedDay] = useState(0)
   const [viewMode, setViewMode] = useState<"week" | "day">("week")
+  // localized days and filters
+  const daysOfWeek = [
+    t('dayMonday'),
+    t('dayTuesday'),
+    t('dayWednesday'),
+    t('dayThursday'),
+    t('dayFriday'),
+    t('daySaturday'),
+    t('daySunday'),
+  ]
+
+  const filters: Array<keyof typeof translations.vi> = [
+    'filterCampus',
+    'filterCourse',
+    'filterClass',
+    'filterInstructor',
+  ]
+
+  // compute dynamic week range (Monday - Sunday) formatted according to current language
+  const weekRange = (() => {
+    const now = new Date()
+    // calculate Monday as start of week
+    const diff = (now.getDay() + 6) % 7
+    const start = new Date(now)
+    start.setDate(now.getDate() - diff)
+    const end = new Date(start)
+    end.setDate(start.getDate() + 6)
+
+    const monthFmt = new Intl.DateTimeFormat(language, { month: 'short' })
+    const startMonth = monthFmt.format(start)
+    const endMonth = monthFmt.format(end)
+    const startDay = start.getDate()
+    const endDay = end.getDate()
+    const startYear = start.getFullYear()
+    const endYear = end.getFullYear()
+
+    if (startYear !== endYear) {
+      // different years
+      return `${monthFmt.format(start)} ${startDay}, ${startYear} - ${monthFmt.format(end)} ${endDay}, ${endYear}`
+    }
+    if (startMonth === endMonth) {
+      // same month
+      return `${startMonth} ${startDay}-${endDay}, ${startYear}`
+    }
+    return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${startYear}`
+  })()
 
   return (
     <AppShell>
       <div className="max-w-6xl mx-auto">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground mb-1">Class Schedule</h1>
-            <p className="text-muted-foreground text-sm">Week of Nov 18-24, 2025</p>
+            <h1 className="text-2xl font-bold text-foreground mb-1">{t('scheduleTitle')}</h1>
+            <p className="text-muted-foreground text-sm">{`${t('scheduleWeekOf')} ${weekRange}`}</p>
           </div>
           <div className="flex gap-2">
-            <Button variant={viewMode === "week" ? "default" : "outline"} size="sm" onClick={() => setViewMode("week")}>
-              Week
+            <Button variant={viewMode === "week" ? "default" : "outline"} size="sm" onClick={() => setViewMode("week") }>
+              {t('viewWeek')}
             </Button>
-            <Button variant={viewMode === "day" ? "default" : "outline"} size="sm" onClick={() => setViewMode("day")}>
-              Day
+            <Button variant={viewMode === "day" ? "default" : "outline"} size="sm" onClick={() => setViewMode("day") }>
+              {t('viewDay')}
             </Button>
           </div>
         </div>
 
         {/* Filters */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-          {["Campus", "Course", "Class", "Instructor"].map((filter) => (
+          {filters.map((key) => (
             <div
-              key={filter}
+              key={key}
               className="px-3 py-2 bg-white border border-border rounded-lg text-sm text-muted-foreground cursor-pointer hover:border-fpt-orange"
             >
-              {filter}
+              {t(key)}
             </div>
           ))}
         </div>
@@ -121,14 +171,14 @@ export default function Schedule() {
                             </div>
                             {cls.type === "Online" && (
                               <button className="mt-2 text-xs flex items-center gap-1 text-fpt-blue hover:underline">
-                                <Link2 size={12} /> Join Meeting
+                                <Link2 size={12} /> {t('joinMeeting')}
                               </button>
                             )}
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-muted-foreground text-sm italic">No classes</p>
+                      <p className="text-muted-foreground text-sm italic">{t('noClasses')}</p>
                     )}
                   </div>
                 </div>
